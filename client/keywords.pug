@@ -1,0 +1,54 @@
+doctype html
+html
+head
+    title Discord Bot
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    style
+        //- the include keyword is a straight copy paste of a file - this just copies all the css here
+        include keywords.css
+body
+    h1#title Discord Bot Keywords
+
+    //- when submits this form, they make a post request to /add on our site. this post request is handled in app.js
+    form(action="/add" method="post")
+        .row.input-row
+            #keyword-col.col
+                div
+                    label(for="keyword") Keyword
+                    //- the name attribute is REQUIRED for input values in a form to show up in a request body in the server
+                input#keyword(type="text" name="keyword")
+            #response-col.col
+                div
+                    label(for="response") Bot Response
+                input#response(type="text" name="response")
+            button#submit(type="submit") Submit
+
+    //- this is just a border line to add some spacing
+    .seperator
+        
+    //- use pug to loop through the javascript object `items` - items is sent to keywords.pug in app.js -> app.get('/', ...)
+    each item in items
+        //- make the row's id `item-id`
+        .row.item-row(id=`item-${item.id}`)
+            div.keyword.col= item.keyword
+            div.response.col= item.response
+            //- when the delete button is clicked, call the del() method and pass in the item.id javascript variable
+            button#delete(onclick=`del(${item.id})`) Delete
+
+    script.
+        //- delete function that sends the row's id to the server for deletion using AJAX
+        function del(id) {
+
+            //- make a new AJAX request
+            var xmlHttp = new XMLHttpRequest();
+            //- make the request a post request to /delete - this is handled in app.js
+            xmlHttp.open("POST", "/delete", true);
+            //- tell the server that this will be JSON data
+            xmlHttp.setRequestHeader("Content-type", "application/json");
+            //- convert the id to JSON data and send it to the server
+            xmlHttp.send(JSON.stringify({id: id}));
+
+            //- delete the row by id using javascript
+            let itemRow = document.querySelector(`#item-${id}`);
+            itemRow.parentNode.removeChild(itemRow);
+        }

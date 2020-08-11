@@ -1,0 +1,64 @@
+#title {
+    border-bottom: 1px solid gray;
+    padding-bottom: 10px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.row {
+    display: flex;
+    margin-left: 10px;
+}
+
+.col {
+    /* set the display to flex:column so the inputs in the column can be set to flex: 1 to dynamically fill their width */
+    display: flex;
+    flex-direction: column;
+    margin: 0px 20px;
+    /* make the flex 1 so that columns fill their width evenly */
+    flex: 1;
+    /* make sure the text doesn't overflow in a col */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* make the  flex 1 to fill width */
+.col input {
+    flex: 1;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.item-row {
+    padding: 5px;
+    margin: 5px;
+}
+
+.item-row:hover {
+    background: rgb(214, 96, 96);
+    border-radius: 5px;
+}
+
+#submit {
+    color: white;
+    background: rgb(56, 184, 52);
+    /* make the submit button a perfect circle */
+    border-radius: 50%;
+    border: 2px solid green;
+}
+
+#submit:hover {
+    background: rgb(98, 238, 96);
+}
+
+#submit:active {
+    box-shadow: inset 0px 0px 5px gray;
+}
+
+.seperator {
+    margin: 20px 0px;
+    border-bottom: 1px solid gray;
+}
