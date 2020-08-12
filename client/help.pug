@@ -1,0 +1,53 @@
+doctype html
+html
+head
+    title Discord Bot
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    style
+        //- the include keyword is a straight copy paste of a file - this just copies all the css here
+        include style.css
+body
+    h1 Discord Bot Commands
+
+    //- $today
+    h2#help.name $help
+    p.info Returns a link to this very web page
+
+    //- $today
+    h2#today.name $today
+    p.info Shows all hockey games for today's date
+
+    //- $today
+    h2#today.name $today
+    p.info Shows all hockey games for today's date
+
+    //- $tomorrow
+    h2#tomorrow.name $tomorrow
+    p.info Shows all hockey games for tomorrow's date
+
+    //- $dayaftertomorrow
+    h2#dayaftertomorrow.name $dayaftertomorrow
+    p.info Shows all hockey games for day after tomorrow's date
+
+    //- $games
+    h2#games.name $games &lt;date/number&gt;
+    p.info Shows all games on the given day offset or given date
+    h4.ex-row Examples:
+    p.example $games 8-11-2020
+    p.example $games -6
+
+    //- $draft
+    h2#draft.name $draft &lt;year&gt; &lt;pick&gt;
+    p.info Gets the player drafted at the given pick position for the given year
+    h4.ex-row Examples:
+    p.example $draft 2016 1
+
+    //- sports
+    h2#sports.name $&lt;sport-name&gt; &lt;player-name&gt;
+    p.info Returns a basic screenshot of the given player from the sports reference website
+    h4.ex-row Examples:
+    p.example $hockey Matthews
+    p.example $baseball Trout
+    p.example $basketball lebron
+    p.example $soccer messi
+    p.example $football peyton

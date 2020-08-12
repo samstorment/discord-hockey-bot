@@ -21,6 +21,11 @@ app.get('/', (req, res) => {
     });
 });
 
+// show the help page
+app.get('/help', (req, res) => {
+    res.render('help');
+});
+
 // when someone makes a POST to /add
 app.post('/add', (req, res) => {
 

@@ -1,7 +1,12 @@
 const puppeteer = require('puppeteer');
 const path = require('path');  
 
-async function getPlayer(player, msg) {
+async function getPlayer(sport, player, msg) {
+
+    if (sport === 'football') { sport = 'pro-football'; }
+    let link = `https://www.${sport}-reference.com`;
+    if (sport === 'soccer') { link = `https://fbref.com/en/`; }
+
     const browser = await puppeteer.launch({
         args: [
             '--window-size=600,500',
@@ -12,7 +17,7 @@ async function getPlayer(player, msg) {
         defaultViewport: null
     });
     const page = await browser.newPage();
-    await page.goto('https://www.hockey-reference.com');
+    await page.goto(link);
     
     // type into the player's name into the input box. the delay is the time between key presses - longer makes it seem more human
     await page.type('.ac-input', player, {delay: 50});
