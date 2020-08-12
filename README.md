@@ -5,6 +5,12 @@
 * `app.js` is the main module
 * We listen for discord messages in ./server/bot/bot.js
 * Other bot command files are defined in ./server/bot/
+* To get puppeteer to work i had to do the following to the heroku repository:
+```
+$ heroku buildpacks:clear
+$ heroku buildpacks:add --index 1 https://github.com/jontewks/puppeteer-heroku-buildpack
+$ heroku buildpacks:add --index 1 heroku/nodejs
+```
 
 ## Run Locally
 

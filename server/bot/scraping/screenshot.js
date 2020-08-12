@@ -5,6 +5,8 @@ async function getPlayer(player, msg) {
     const browser = await puppeteer.launch({
         args: [
             '--window-size=600,500',
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
         ],
         // headless: false,
         defaultViewport: null
