@@ -5,6 +5,7 @@ require('dotenv').config();                 // lets us use environment variables
 
 // IMPORT bot functionality
 const checkDbKeywords = require('./keywords');
+const getPlayer = require('./scraping/screenshot');
 
 // create the bot and login with the login token we got from the discord dev center
 const bot = new discord.Client();
@@ -97,6 +98,12 @@ bot.on('message', msg => {
             .catch(err => console.log('error sending $draft formatting tips'));
         }
     }
+
+    else if (argv[0] === '$player') {
+        let player = argv[1];
+        getPlayer(player, msg);
+    }
+
     // tell the user they are stupid
     else {
         msg.channel.send(`${msg.author} What are you, a dummy? That's not a command.`);
