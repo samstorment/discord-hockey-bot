@@ -13,7 +13,7 @@ async function getPlayer(sport, player, msg) {
             '--no-sandbox',
             '--disable-setuid-sandbox'
         ],
-        headless: false,
+        // headless: false,
         defaultViewport: null
     });
     const page = await browser.newPage();
