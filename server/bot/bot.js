@@ -19,7 +19,7 @@ bot.on('ready', () => console.log('Bot is up and running'));
 
 // anytime the bot recieves a message we can react to it here
 bot.on('message', msg => {
-    
+
     // do nothing if the message is from any bot
     if (msg.author.bot) { return; }
 
@@ -58,28 +58,28 @@ bot.on('message', msg => {
         sendGames(date, msg);
     }
 
-     // $dayaftertomorrw
+    // $dayaftertomorrw
     else if (message === '$dayaftertomorrow') {
 
         // same as $today but we add 1 to the date
         let utcDate = moment(msg.createdTimestamp).add(2, 'days');
         let date = utcDate.tz('America/Chicago').format('YYYY-MM-DD');
         sendGames(date, msg);
-    } 
+    }
 
     // $games -- usage -> $games 10 (gets games 10 days from now)
     //           usage -> $games 08-01-1997 (gets games on that date)
     // check if there is more than one arg, makes sure the first arg is $games, and makes sure the second arg is a number
     else if (argc > 1 && argv[0] === '$games') {
-      
+
         // if arg1 is a number
         if (!isNaN(argv[1])) {
             let utcDate = moment(msg.createdTimestamp).add(parseInt(argv[1]), 'days');
             let date = utcDate.tz('America/Chicago').format('YYYY-MM-DD');
             sendGames(date, msg);
-        } 
+        }
         // if arg1 is a valid date
-        else if (moment(argv[1]).isValid())  {
+        else if (moment(argv[1]).isValid()) {
             let date = moment(argv[1]).tz('America/Chicago').format('YYYY-MM-DD');
             sendGames(date, msg);
         } else {
@@ -89,27 +89,53 @@ bot.on('message', msg => {
 
     // $draft -- usage -> $draft 2019 7 (gets the 7th overall pick in 2019)
     else if (argv[0] === '$draft') {
-        
+
         let year = argv[1];
         let pick = argv[2];
         if (!isNaN(year) && !isNaN(pick) && argc > 2) {
             sendDraftPick(year, parseInt(pick), msg);
         } else {
             msg.channel.send(`$draft needs a year and a pick number.\nFormat is:\n$draft year overall-pick`)
-            .catch(err => console.log('error sending $draft formatting tips'));
+                .catch(err => console.log('error sending $draft formatting tips'));
         }
     }
 
     // send the link to the command help
     else if (argv[0] === '$help') {
         msg.channel.send(`https://discord-hockey-bot.herokuapp.com/help`)
-        .catch(err => console.log('error sending help link'));
+            .catch(err => console.log('error sending help link'));
     }
 
     else if (argv[0] === '$hockey' || argv[0] === '$baseball' || argv[0] === '$football' || argv[0] === '$basketball' || argv[0] === '$soccer') {
         let player = argv.slice(1).join(' ');   // player is every value in the array of args joined together as a space separated stirng
         let sport = argv[0].slice(1);           // sport is the first arg without the $
         getPlayer(sport, player, msg);
+    }
+
+    // when a message is recieved starting with $dog...
+    else if (argv[0] === '$dog') {
+
+        // send "I LOVE DOGS"
+        msg.channel.send('I LOVE DOGS!')
+        .then(dogMsg => {
+            // react to the dogMsg (The one that says 'I LOVE DOGS')
+            dogMsg.react('🥳')
+            // after we send the party guy reaction, send the elephant reaction. If we didn't put the elephant reaction in the .then(), we'd have no guarantee of the order of the reactions
+            .then(() => dogMsg.react('🐘'))
+            .catch(err => console.log('emoji error'));
+        })
+        .catch(err => console.log(`Error sending message: ${err}`)); // catch any errors sending the message
+
+        // equivalent to the promise chain above using async-await
+        // (async () => {
+        //     try {
+        //         let dogMsg = await msg.channel.send('I LOVE DOGS');
+        //         await dogMsg.react('🥳');
+        //         await dogMsg.react('🐘');
+        //     } catch (err) {
+        //         console.log(`Error sending message: ${err}`);
+        //     }
+        // })();
     }
 
     // tell the user they are stupid

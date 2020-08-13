@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const path = require('path');  
+const path = require('path');
 
 async function getPlayer(sport, player, msg) {
 
@@ -13,14 +13,14 @@ async function getPlayer(sport, player, msg) {
             '--no-sandbox',
             '--disable-setuid-sandbox'
         ],
-        // headless: false,
+        headless: false,
         defaultViewport: null
     });
     const page = await browser.newPage();
     await page.goto(link);
-    
+
     // type into the player's name into the input box. the delay is the time between key presses - longer makes it seem more human
-    await page.type('.ac-input', player, {delay: 50});
+    await page.type('.ac-input', player, { delay: 50 });
 
     // find the first result in the search box dropdown and click that bad boy
     await page.evaluate(() => {
@@ -34,7 +34,7 @@ async function getPlayer(sport, player, msg) {
     });
 
     // screenshot the page's contents
-    await page.screenshot({path: path.join(__dirname, 'player.png')});
+    await page.screenshot({ path: path.join(__dirname, 'player.png') });
 
     await browser.close();
 
