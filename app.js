@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');  // needed to parse HTTP request body
 const path = require('path');               // lets us use file paths independent of OS
 require('./server/bot/bot');                // import our bot so all of our bot commands actually work
 const db = require('./server/db/db');       // import db so we can use db functions
+const ping = require('./server/pinger/ping');
 
 db.setUp(); // we need to call this once to get our db setup loop working
 const app = express();
@@ -50,4 +51,8 @@ app.post('/delete', (req, res) => {
 
 // listen on the heroku port, or 5000 if we are running locally
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`listening on port ${port}`));
+const url = `https://discord-hockey-bot.herokuapp.com/`;
+app.listen(port, () => {
+    console.log(`listening on port ${port}`);
+    ping(url);
+});
