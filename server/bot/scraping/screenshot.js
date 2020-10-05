@@ -9,7 +9,7 @@ async function getPlayer(sport, player, msg) {
 
     const browser = await puppeteer.launch({
         args: [
-            '--window-size=600,500',
+            '--window-size=650,550',
             '--no-sandbox',
             '--disable-setuid-sandbox'
         ],
@@ -32,6 +32,9 @@ async function getPlayer(sport, player, msg) {
     await page.waitForFunction(() => {
         return Array.from(document.images).every((i) => i.complete);
     });
+
+    // wait an extra second to try to let everything load. This is a hacky fix, but easy
+    await page.waitFor(2000);
 
     // screenshot the page's contents
     await page.screenshot({ path: path.join(__dirname, 'player.png') });
