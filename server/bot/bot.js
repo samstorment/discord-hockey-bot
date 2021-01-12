@@ -4,7 +4,8 @@ require('dotenv').config();                 // lets us use environment variables
 
 // IMPORT bot functionality
 const checkDbKeywords = require('./keywords');
-const getPlayer = require('./scraping/screenshot');
+const getPlayerImage = require('./sports-ref-scraping/screenshot');
+const getPlayerStats = require('./sports-ref-scraping/stats');
 const sendGames = require('./nhl-api/schedule');
 const sendDraftPick = require('./nhl-api/draft');
 
@@ -107,9 +108,29 @@ bot.on('message', msg => {
     }
 
     else if (argv[0] === '$hockey' || argv[0] === '$baseball' || argv[0] === '$football' || argv[0] === '$basketball' || argv[0] === '$soccer') {
-        let player = argv.slice(1).join(' ');   // player is every value in the array of args joined together as a space separated stirng
+
         let sport = argv[0].slice(1);           // sport is the first arg without the $
-        getPlayer(sport, player, msg);
+
+        let player = argv.slice(1).join(' ');   // player is every value in the array of args joined together as a space separated stirng
+        
+        if (!player) {
+            msg.channel.send('Provide a player name like: $baseball trout');
+            return;
+        }
+
+        getPlayerImage(sport, player, msg);
+    }
+
+    else if (argv[0] === '$stats') {
+        let sport = argv[1];
+        let player = argv.slice(2).join(' ');
+        
+        // if (sport === 'hockey' || sport === 'baseball' || sport === 'football' || sport === 'basketball' || sport === 'soccer') {
+        if (sport === 'baseball') {
+            getPlayerStats(sport, player, msg);
+        } else {
+            msg.channel.send(`Sorry dog we've only got baseball for now`);
+        }
     }
 
     // when a message is recieved starting with $dog...
@@ -125,17 +146,6 @@ bot.on('message', msg => {
             .catch(err => console.log('emoji error'));
         })
         .catch(err => console.log(`Error sending message: ${err}`)); // catch any errors sending the message
-
-        // equivalent to the promise chain above using async-await
-        // (async () => {
-        //     try {
-        //         let dogMsg = await msg.channel.send('I LOVE DOGS');
-        //         await dogMsg.react('🥳');
-        //         await dogMsg.react('🐘');
-        //     } catch (err) {
-        //         console.log(`Error sending message: ${err}`);
-        //     }
-        // })();
     }
 
     // tell the user they are stupid
