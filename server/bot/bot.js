@@ -27,7 +27,7 @@ bot.on('message', msg => {
     console.log(msg.author.id);
 
     // if the author is wade, give him some pride
-    if (msg.author.id === '269992796545351681') msg.react('🏳️‍🌈');
+    if (msg.author.id === '269992796545351681' && Math.random() < 0.5) msg.react('🏳️‍🌈');
 
     let message = msg.content.toLowerCase();    // convert the message to lowercase so we can parse it easier
     let argv = message.split(/[ ,]+/);          // split the message into an array of words, split by any number of spaces or commas
