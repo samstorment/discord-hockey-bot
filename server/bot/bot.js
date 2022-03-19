@@ -19,12 +19,10 @@ bot.login(token);
 bot.on('ready', () => console.log('Bot is up and running'));
 
 // anytime the bot recieves a message we can react to it here
-bot.on('message', msg => {
+bot.on('message', async msg => {
 
     // do nothing if the message is from any bot
     if (msg.author.bot) { return; }
-
-    console.log(msg.author.id);
 
     // if the author is wade, give him some pride
     if (msg.author.id === '269992796545351681' && Math.random() < 0.5) msg.react('🏳️‍🌈');
@@ -141,16 +139,9 @@ bot.on('message', msg => {
     // when a message is recieved starting with $dog...
     else if (argv[0] === '$dog') {
 
-        // send "I LOVE DOGS"
-        msg.channel.send('I LOVE DOGS!')
-        .then(dogMsg => {
-            // react to the dogMsg (The one that says 'I LOVE DOGS')
-            dogMsg.react('🥳')
-            // after we send the party guy reaction, send the elephant reaction. If we didn't put the elephant reaction in the .then(), we'd have no guarantee of the order of the reactions
-            .then(() => dogMsg.react('🐘'))
-            .catch(err => console.log('emoji error'));
-        })
-        .catch(err => console.log(`Error sending message: ${err}`)); // catch any errors sending the message
+        let dogMsg = await msg.channel.send('I LOVE DOGS!!!');
+
+        await Promise.all([dogMsg.react('🥳'), dogMsg.react('🐘') ]);
     }
 
     // tell the user they are stupid
